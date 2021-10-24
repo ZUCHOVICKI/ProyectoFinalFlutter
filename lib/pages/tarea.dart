@@ -20,7 +20,7 @@ class TareaPage extends StatelessWidget {
       
       floatingActionButton:Add_todo(),
       floatingActionButtonLocation:FloatingActionButtonLocation.centerFloat,
-      bottomNavigationBar:NavigationCustom(),
+      // bottomNavigationBar:NavigationCustom(),
     );
   }
 }

@@ -1,32 +1,26 @@
-
-
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
-import 'package:getwidget/components/loader/gf_loader.dart';
-import 'package:getwidget/getwidget.dart';
 import 'package:rflutter_alert/rflutter_alert.dart';
 
 
 
-class LoginPage extends StatefulWidget {
-  LoginPage({Key? key}) : super(key: key);
+class registroPage extends StatefulWidget {
+  registroPage({Key? key}) : super(key: key);
 
   @override
-  _LoginPageState createState() => _LoginPageState();
+  _registroPageState createState() => _registroPageState();
 }
 
-class _LoginPageState extends State<LoginPage> {
-  
-
- User? user = FirebaseAuth.instance.currentUser;
-
-  String _mail =" ";
-  String _password = " ";
+class _registroPageState extends State<registroPage> {
+  FirebaseAuth auth = FirebaseAuth.instance;
+  String _mail ="";
+  String _password = "";
 
   @override
   Widget build(BuildContext context) {
-    
-      FirebaseAuth.instance
+
+    FirebaseAuth.instance
       .authStateChanges()
       .listen((User? user) {
         if (user == null) {
@@ -35,9 +29,16 @@ class _LoginPageState extends State<LoginPage> {
           Navigator.pushNamed(context, "Home");
         }
       });
-
+      
     return Scaffold(
       resizeToAvoidBottomInset: false,
+      floatingActionButton: FloatingActionButton(
+      child:Icon(Icons.backspace),
+      onPressed:(){
+        Navigator.pushNamed(context, 'Login');
+      },
+    ) ,
+      floatingActionButtonLocation:FloatingActionButtonLocation.startTop,
       
       body:Column(
         children: [
@@ -73,42 +74,23 @@ class _LoginPageState extends State<LoginPage> {
         
         child: ElevatedButton(
             style: ButtonStyle(foregroundColor: MaterialStateProperty.all(Colors.white)),
-            onPressed:() async {
+            onPressed:()async{
               try {
-               
-                 UserCredential userCredential = await FirebaseAuth.instance.signInWithEmailAndPassword(
-                    email: _mail,
-                    password: _password
-                  );
-
-                  
-
-                  print(user);
-                  Navigator.pushNamed(context, "Home");
-                } on FirebaseAuthException catch (e) {
-                  
-                  
-                    Alert(context: context, title: "ERROR", desc: "Error en los Datos").show();
-                    print('$e');
-                    
-                  
-                }
-            },
-            child:  Text('Iniciar'),),
-      ),
-      Container(
-        margin: EdgeInsets.symmetric(horizontal: 20),
-        width: 150,
-        height: 50,
-        
-        child: ElevatedButton(
-            style: ButtonStyle(foregroundColor: MaterialStateProperty.all(Colors.white)),
-            onPressed:(){
-              Navigator.pushNamed(context, 'Registro');
+              UserCredential userCredential = await FirebaseAuth.instance.createUserWithEmailAndPassword(
+                email: _mail,
+                password: _password
+              );
+              await Alert(context: context, title: "SUCCESS", desc: "Usuario Creado Satisfactoriamente").show();
+              Navigator.pushNamed(context, 'Login');
+            } on FirebaseAuthException catch (e) {
+              Alert(context: context, title: "ERROR", desc:"Error en los Datos").show();
+              print("$e");
+            } 
             },
             child:  Text('Registrarse'),),
       )
-      // loginButton(name: "Registrarse")
+      
+      
     ]
   )
         ],
@@ -171,5 +153,4 @@ Widget _crearInput(){
 }
 
 
-
- 
+// 

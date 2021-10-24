@@ -10,6 +10,7 @@ class NotificacionesPage extends StatelessWidget {
     return Scaffold(
       
       appBar: AppBar(
+        automaticallyImplyLeading: false,
         title:Center(
           child:Text("Notificación Page")),
         actions:[
@@ -20,7 +21,7 @@ class NotificacionesPage extends StatelessWidget {
       
       floatingActionButton:Add_todo(),
       floatingActionButtonLocation:FloatingActionButtonLocation.centerFloat,
-      bottomNavigationBar:NavigationCustom(),
+      bottomNavigationBar:NavigationCustom(indexNum: 1,),
     );
   }
 }

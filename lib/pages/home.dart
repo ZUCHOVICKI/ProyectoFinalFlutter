@@ -1,15 +1,19 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:proyecto_final/widgets/Nav_bar.dart';
 import 'package:proyecto_final/widgets/add_todo.dart';
-
+User? user = FirebaseAuth.instance.currentUser;
 class HomePage extends StatelessWidget {
+  
   const HomePage({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
+    
     return Scaffold(
       
       appBar: AppBar(
+        automaticallyImplyLeading: false,
         title:Center(
           child:Text("Home Page")),
         actions:[
@@ -20,7 +24,7 @@ class HomePage extends StatelessWidget {
       
       floatingActionButton:Add_todo(),
       floatingActionButtonLocation:FloatingActionButtonLocation.centerFloat,
-      bottomNavigationBar:NavigationCustom(),
+      bottomNavigationBar:NavigationCustom(indexNum: 0,),
     );
   }
 }
@@ -31,6 +35,8 @@ class _HomePageBody extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container();
+    return Container(
+      child:Text("${user!.uid}")
+    );
   }
 }
