@@ -9,7 +9,9 @@ class Add_todo extends StatelessWidget {
   Widget build(BuildContext context) {
     return FloatingActionButton(
       child:Icon(Icons.add),
-      onPressed:(){},
+      onPressed:(){
+        Navigator.pushNamed(context, "Tarea");
+      },
     );
   }
 }
