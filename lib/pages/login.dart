@@ -6,6 +6,7 @@ import 'package:getwidget/components/loader/gf_loader.dart';
 import 'package:getwidget/getwidget.dart';
 import 'package:rflutter_alert/rflutter_alert.dart';
 
+User? user = FirebaseAuth.instance.currentUser;
 
 
 class LoginPage extends StatefulWidget {
@@ -25,16 +26,8 @@ class _LoginPageState extends State<LoginPage> {
 
   @override
   Widget build(BuildContext context) {
-    
-      FirebaseAuth.instance
-      .authStateChanges()
-      .listen((User? user) {
-        if (user == null) {
-          
-        } else {
-          Navigator.pushNamed(context, "Home");
-        }
-      });
+    print(user);
+      
 
     return Scaffold(
       resizeToAvoidBottomInset: false,

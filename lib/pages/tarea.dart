@@ -19,12 +19,11 @@ class _TareaPageState extends State<TareaPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       floatingActionButton: addToDo(titulo: _titulo,texto: _texto),
+      floatingActionButtonLocation: FloatingActionButtonLocation.miniEndTop,
       appBar: AppBar(
         title:Center(
           child:Text("Tarea Page")),
-        actions:[
-          IconButton(onPressed: (){}, icon: Icon(Icons.delete_forever))
-        ],
+        
       ),
       body: Container(
       

@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-
+import 'package:awesome_notifications/awesome_notifications.dart';
 import 'package:flutter/material.dart';
 import 'package:getwidget/components/loader/gf_loader.dart';
 import 'package:getwidget/getwidget.dart';
@@ -14,8 +14,11 @@ import 'package:firebase_core/firebase_core.dart';
 
 
 void main() {
+
   WidgetsFlutterBinding.ensureInitialized();
+   
   runApp(MyApp());
+  
 }
 
 class MyApp extends StatefulWidget {
@@ -26,6 +29,8 @@ class MyApp extends StatefulWidget {
 
 
 class _MyAppState extends State<MyApp> {
+
+  
 
   bool _initialized = false;
   bool _error = false;
@@ -50,9 +55,12 @@ class _MyAppState extends State<MyApp> {
     initializeFlutterFire();
     super.initState();
   }
+  
 
   @override
   Widget build(BuildContext context) {
+    
+    
    if(_error) {
       return Text("Error While loading Firebase");
     }
@@ -73,6 +81,7 @@ class _MyAppState extends State<MyApp> {
       title: 'Material App',
       initialRoute: 'Login',
       routes: {
+        
         'Home': (BuildContext context) => HomePage(),
         'Tarea': (BuildContext context) => TareaPage(),
         'Perfil': (BuildContext context) => PerfilPage(),
@@ -101,4 +110,6 @@ class _MyAppState extends State<MyApp> {
           )),
     );
   }
+  
 }
+

@@ -1,3 +1,4 @@
+import 'package:awesome_notifications/awesome_notifications.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -6,7 +7,7 @@ import 'package:getwidget/getwidget.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:proyecto_final/widgets/Nav_bar.dart';
 import 'package:proyecto_final/widgets/add_todo.dart';
-User? user = FirebaseAuth.instance.currentUser;
+import 'package:rflutter_alert/rflutter_alert.dart';
 CollectionReference Todos = FirebaseFirestore.instance.collection('Todos');
 CollectionReference users = FirebaseFirestore.instance.collection('users');
 
@@ -18,6 +19,7 @@ class HomePage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    
      final String documentId;
     return Scaffold(
       
@@ -45,8 +47,11 @@ class _HomePageBody extends StatefulWidget {
 }
 
 class __HomePageBodyState extends State<_HomePageBody> {
+  User? user = FirebaseAuth.instance.currentUser;
+
   @override
   Widget build(BuildContext context) {
+    print(user!.uid);
     return Container(
       
 
@@ -72,7 +77,7 @@ class __HomePageBodyState extends State<_HomePageBody> {
           data.forEach((element) {
             
              returnList.add(element.data());
-            //  print(returnList);
+             print(returnList);
           });
 
           if(returnList.isEmpty){
@@ -115,9 +120,19 @@ class __HomePageBodyState extends State<_HomePageBody> {
 
                   returnList.removeAt(index);
                 },
-                child: ListTile(
-                  title: Text(item["Titulo"].toString()),
-                  subtitle: Text(item["Texto"].toString()),
+                child: Column(
+                  children: [
+                    ListTile(
+                      title: Text(item["Titulo"].toString(),style: GoogleFonts.oswald(textStyle: TextStyle(fontSize: 20))),
+                      subtitle: Text(item["Texto"].toString(),style: GoogleFonts.oswald(textStyle: TextStyle(fontSize: 15))),
+                      leading: Icon(Icons.alarm),
+                      trailing: Icon(Icons.star),
+                      
+                    ),
+                    Divider(),
+                  ],
+
+                  
                 ),
               );
               }));

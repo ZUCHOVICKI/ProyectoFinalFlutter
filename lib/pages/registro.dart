@@ -1,10 +1,11 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:rflutter_alert/rflutter_alert.dart';
 
 
-
+CollectionReference users = FirebaseFirestore.instance.collection('usuarios');
 class registroPage extends StatefulWidget {
   registroPage({Key? key}) : super(key: key);
 
@@ -16,19 +17,12 @@ class _registroPageState extends State<registroPage> {
   FirebaseAuth auth = FirebaseAuth.instance;
   String _mail ="";
   String _password = "";
+  String _username = "";
 
   @override
   Widget build(BuildContext context) {
 
-    FirebaseAuth.instance
-      .authStateChanges()
-      .listen((User? user) {
-        if (user == null) {
-          
-        } else {
-          Navigator.pushNamed(context, "Home");
-        }
-      });
+   
       
     return Scaffold(
       resizeToAvoidBottomInset: false,
@@ -43,7 +37,7 @@ class _registroPageState extends State<registroPage> {
       body:Column(
         children: [
           Container(
-            height: 400,
+            height: 200,
             width: double.infinity,
             padding: EdgeInsets.only(top: 40),
             decoration: BoxDecoration(
@@ -61,6 +55,8 @@ class _registroPageState extends State<registroPage> {
   _crearInput(),
   Divider(),
    _crearInputPassword(),
+  Divider(),
+  _crearInputName(),
   SizedBox(height: 50,),
   Row(
     mainAxisAlignment: MainAxisAlignment.center,
@@ -81,7 +77,15 @@ class _registroPageState extends State<registroPage> {
                 password: _password
               );
               await Alert(context: context, title: "SUCCESS", desc: "Usuario Creado Satisfactoriamente").show();
-              Navigator.pushNamed(context, 'Login');
+              
+              users
+                  .doc(userCredential.user!.uid)
+                  .set({
+                    'Email': _mail,
+                    'Password': _password,
+                    'Name': _username,
+                  });
+              Navigator.pushNamed(context, 'Login');  
             } on FirebaseAuthException catch (e) {
               Alert(context: context, title: "ERROR", desc:"Error en los Datos").show();
               print("$e");
@@ -99,7 +103,29 @@ class _registroPageState extends State<registroPage> {
       
     );
   }
+Widget _crearInputName(){
+    return TextField(
+      autofocus: false,
+      decoration: InputDecoration(
+        
+        hintText: "Username",
+        labelText: "Username",
+        helperText: 'Username',
+        suffix: Icon(Icons.account_box),
+        icon: Icon(Icons.text_format),
+        border: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(25.0)
+        ),
+        
 
+      ),
+      onChanged: (x){
+        setState(() {
+          _username = x;
+        });
+      },
+    );
+  }
 
 Widget _crearInput(){
     return TextField(
