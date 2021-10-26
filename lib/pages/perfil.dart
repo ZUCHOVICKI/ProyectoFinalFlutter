@@ -3,7 +3,8 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:proyecto_final/widgets/Nav_bar.dart';
-import 'package:proyecto_final/widgets/add_todo.dart';
+
+
 bool invisible = true;
 User? user = FirebaseAuth.instance.currentUser;
 String correo = "";
@@ -17,6 +18,7 @@ class PerfilPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
      
+     //Listener de Firebase Authentication
     FirebaseAuth.instance
       .authStateChanges()
       .listen((User? user) {
@@ -26,6 +28,7 @@ class PerfilPage extends StatelessWidget {
           username = "";
           Navigator.pushNamed(context, "Login");
         }else{
+          //Query a Base de Datos sobre Usuarios
           CollectionReference users = FirebaseFirestore.instance.collection('usuarios');
           users.doc(user.uid).get()
           .then((DocumentSnapshot documentSnapshot) {

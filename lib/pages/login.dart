@@ -2,11 +2,11 @@
 
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:getwidget/components/loader/gf_loader.dart';
-import 'package:getwidget/getwidget.dart';
 import 'package:rflutter_alert/rflutter_alert.dart';
 
-User? user = FirebaseAuth.instance.currentUser;
+
+
+
 
 
 class LoginPage extends StatefulWidget {
@@ -18,7 +18,7 @@ class LoginPage extends StatefulWidget {
 
 class _LoginPageState extends State<LoginPage> {
   
-
+//Usuario Actual en Firebase
  User? user = FirebaseAuth.instance.currentUser;
 
   String _mail =" ";
@@ -26,7 +26,7 @@ class _LoginPageState extends State<LoginPage> {
 
   @override
   Widget build(BuildContext context) {
-    print(user);
+    
       
 
     return Scaffold(
@@ -68,7 +68,7 @@ class _LoginPageState extends State<LoginPage> {
             style: ButtonStyle(foregroundColor: MaterialStateProperty.all(Colors.white)),
             onPressed:() async {
               try {
-               
+               //LLamada a Firebase Authentication 
                  UserCredential userCredential = await FirebaseAuth.instance.signInWithEmailAndPassword(
                     email: _mail,
                     password: _password
@@ -76,7 +76,7 @@ class _LoginPageState extends State<LoginPage> {
 
                   
 
-                  print(user);
+                  //En caso de Exito se Ingresa a Home
                   Navigator.pushNamed(context, "Home");
                 } on FirebaseAuthException catch (e) {
                   
@@ -101,7 +101,7 @@ class _LoginPageState extends State<LoginPage> {
             },
             child:  Text('Registrarse'),),
       )
-      // loginButton(name: "Registrarse")
+      
     ]
   )
         ],
@@ -111,7 +111,7 @@ class _LoginPageState extends State<LoginPage> {
     );
   }
 
-
+//Input de Email
 Widget _crearInput(){
     return TextField(
       autofocus: false,
@@ -136,6 +136,8 @@ Widget _crearInput(){
     );
   }
 
+
+//Input de Password
   Widget _crearInputPassword(){
     return TextField(
       autofocus: false,

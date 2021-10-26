@@ -1,4 +1,4 @@
-import 'package:awesome_notifications/awesome_notifications.dart';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -7,7 +7,6 @@ import 'package:getwidget/getwidget.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:proyecto_final/widgets/Nav_bar.dart';
 import 'package:proyecto_final/widgets/add_todo.dart';
-import 'package:rflutter_alert/rflutter_alert.dart';
 CollectionReference Todos = FirebaseFirestore.instance.collection('Todos');
 CollectionReference users = FirebaseFirestore.instance.collection('users');
 
@@ -20,7 +19,6 @@ class HomePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     
-     final String documentId;
     return Scaffold(
       
       appBar: AppBar(
@@ -47,28 +45,27 @@ class _HomePageBody extends StatefulWidget {
 }
 
 class __HomePageBodyState extends State<_HomePageBody> {
+
+  // User actual en Firebase
   User? user = FirebaseAuth.instance.currentUser;
 
   @override
   Widget build(BuildContext context) {
-    print(user!.uid);
+    
     return Container(
       
-
+      //Constructor Future para crear las Tareas
     child:  FutureBuilder<QuerySnapshot>(
+      //Query Realizada a Firebase 
       future: Todos.where('Usuario',isEqualTo: user!.uid).get(),
       builder:
           (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
-
+        //En caso de Error en el Query
         if (snapshot.hasError) {
           return Text("Something went wrong");
         }
         
-        
-
         if (snapshot.connectionState == ConnectionState.done) {
-
-           
          
           List returnList =[];
           
@@ -77,9 +74,9 @@ class __HomePageBodyState extends State<_HomePageBody> {
           data.forEach((element) {
             
              returnList.add(element.data());
-             print(returnList);
+             
           });
-
+          //Checar si no existen documentos en el Snapshot
           if(returnList.isEmpty){
             
             return Column(
@@ -97,7 +94,7 @@ class __HomePageBodyState extends State<_HomePageBody> {
              Widget ListGen(){
                
               return Container(
-          child: ListView.builder(
+              child: ListView.builder(
               itemCount:returnList.length,
               scrollDirection: Axis.vertical,
               itemBuilder: (BuildContext context, int index) {
@@ -140,7 +137,7 @@ class __HomePageBodyState extends State<_HomePageBody> {
           return ListGen();
           
         }
-
+        //Loader mientras se realiza la Query
         return  GFLoader(
         type: GFLoaderType.circle,
         loaderColorOne: Color.fromRGBO(93, 53, 176, 1),

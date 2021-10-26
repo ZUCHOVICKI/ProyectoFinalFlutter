@@ -6,7 +6,7 @@ import 'package:proyecto_final/widgets/Nav_bar.dart';
 import 'package:rflutter_alert/rflutter_alert.dart';
 
 String horaAlarma ="";
-DateTime now = DateTime.now();
+
 
 
 class NotificacionesPage extends StatelessWidget {
@@ -46,6 +46,7 @@ class __HomePageBodyState extends State<_HomePageBody> {
   
 
   void _selectTime() async {
+    //Tiempo Actual en Ambos Formatos
     DateTime now = DateTime.now();
     final TimeOfDay? newTime = await showTimePicker(
       context: context,
@@ -56,12 +57,11 @@ class __HomePageBodyState extends State<_HomePageBody> {
         _time = newTime;
        
       });
-      // DateTime finalHour = _time as DateTime;
+      
 
-      print(new DateTime(now.year,now.month,now.day,_time.hour,_time.minute));
-      print(_time.hour);
       
       
+      //Validación si el tiempo es del dia actual o del siguiente
       if(_time.hour<TimeOfDay.now().hour){
         _ringAlarm(new DateTime(now.year,now.month,now.day+1,_time.hour,_time.minute),context);
       }else{
